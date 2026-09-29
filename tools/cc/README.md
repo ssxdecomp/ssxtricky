@@ -15,6 +15,13 @@ We have been able to recover important compiler flags (for at least C) from a ma
 | Test                    | `-g -O2 -fno-edge-lcm`                   | Close to release flags but with -g (debug info) and no fp-omission |
 | Release (and ReleaseCD) | `-O2 -fno-edge-lcm -fomit-frame-pointer` | Adds fp-omission.                                                  |
 
-It is surmised that `-fno-rtti` and possibly `-fno-exceptions` were also given for C++ compilation
+`-fno-exceptions` is no longer a guess: without it, gcc 2.9 emits a
+`_GLOBAL_$F$<translation unit>` frame-registration entry into `.data` for every
+C++ translation unit -- 0x18 bytes apiece -- and a build carrying those cannot
+match. Passing it takes the object's `.data` to zero.
+
+`-fno-rtti` is still an assumption. On a trivial translation unit it changes
+nothing observable (it does *not* suppress the frame entry on its own), so it can
+only be confirmed or refuted against real classes with virtual functions.
 
 `-fno-edge-lcm` does not exist in ee-990721, which is how it has been figured out that ee-991111 was used for the final builds.
