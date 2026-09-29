@@ -15,7 +15,9 @@
 .endm
 
 # Marks an exception-handling landing pad (used by the gcc_except_table).
+# Global because .gcc_except_table, a separate object, refers to it.
 .macro ehlabel label
+    .global \label
     \label:
 .endm
 
