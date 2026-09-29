@@ -4,10 +4,11 @@ versions:
   - name: US
     fullname: NTSC-U release (SLUS-20326)
     paths:
-      baserom: 'disc/SLUS_203.26'
-      build: 'build/SLUS_203.26'
+      target: 'disc/SLUS_203.26'
+      build_dir: 'out'
+      compiled_target: 'out/SLUS_203.26'
       asm: 'asm'
       nonmatchings: 'asm/nonmatchings'
       map: 'out/SLUS_203.26.map'
-      elf: 'out/SLUS_203.36'
+      elf: 'out/SLUS_203.26.elf'
 tools:
