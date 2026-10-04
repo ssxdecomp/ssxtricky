@@ -39,7 +39,7 @@ options:
   undefined_syms_auto_path: config/undefined_syms_auto.txt
 
   symbol_addrs_path: [ 
-    config/symbol_addrs.txt, 
+    config/us/symbol_addrs.txt, 
     config/sdk_symbol_addrs.txt,
     config/eac_symbol_addrs.txt
   ]
@@ -90,7 +90,7 @@ segments:
 
       - { type: asm, start: 0x001000, vram: 0x100000, name: lib/sdk/sce/crt0 }
 
-      - { type: asm, start: 0x141e80, name: bx/core/hashname }
+      - [0x141e80, cpp, bx/core/hashname]
       
       - { type: asm, start: 0x141ef8, name: bx/unk_rest }
 
