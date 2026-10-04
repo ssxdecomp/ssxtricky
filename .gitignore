@@ -31,3 +31,4 @@ disc/
 
 # decompals
 tools/binutils
+tools/objdiff
