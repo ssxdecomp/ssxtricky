@@ -8,7 +8,7 @@ u32 bxPjwHash(u32* arg0, char* arg1)
 }
 #endif
 
-INCLUDE_ASM("bx/core/hashname", bxStringHash);
+INCLUDE_ASM("bx/core/hashname", bxStringHash__FPc);
 #ifdef SKIP_ASM
 u32 bxStringHash(char* arg0) {
     u32 result;
