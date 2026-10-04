@@ -1,0 +1,18 @@
+1. Identify Split and put into config/us/ssxdvd.yaml
+2. Identify Function you want to decompile and check sudo code in Ghidra
+3. Using https://decomp.me Generate New Scratch using the SSX Tricky Preset pulling the asm from asm/nonmatchings
+4. Once compiled open the cpp file in src paste in like shown below incapsulating the function in #ifdef SKIP_ASM
+
+INCLUDE_ASM("bxrandom", func_00317890);
+#ifdef SKIP_ASM
+float func_00317890(float param_1, float param_2)
+{
+}
+#endif
+
+
+5. build using ninja and check objdiff
+6. Correct and add the func name back to config\us\symbol_addrs.txt 
+7. run python3 configure.py -c -o
+8. ninja build again and confirm line is correct
+9. Confirm with objdiff
