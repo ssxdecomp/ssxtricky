@@ -39,7 +39,7 @@ options:
   undefined_syms_auto_path: config/undefined_syms_auto.txt
 
   symbol_addrs_path: [ 
-    config/symbol_addrs.txt, 
+    config/us/symbol_addrs.txt, 
     config/sdk_symbol_addrs.txt,
     config/eac_symbol_addrs.txt
   ]
