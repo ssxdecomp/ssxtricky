@@ -70,7 +70,7 @@ options:
     ".bss",
   ]
 
-  gp_value: 0x002c8ff0
+  gp_value: 0x003c38f0
 
 
 segments:
@@ -116,7 +116,7 @@ segments:
 
 
       # -- SBSS (TODO!!! SPLIT!!!)
-      - { type: sbss, vram: 0x3bb900, start: 0x2bcb00, name: sbss }
+      - { type: sbss, vram: 0x3bbb00, start: 0x2bcb00, name: sbss }
 
 
       # -- BSS (TODO!! SPLIT!!)
