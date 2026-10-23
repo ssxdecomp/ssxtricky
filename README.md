@@ -29,6 +29,17 @@ Fedora does not package pipenv; install it with `pip install --user pipenv` or `
 
 Make a `disc` directory in the root of this repository, and copy the files from the NTSC-U game disc. Only `disc/SLUS_203.26` is needed to build; the rest of the disc is for asset work later.
 
+If what you have is a disc image rather than loose files, pull just the executable out of it:
+
+```bash
+$ mkdir -p disc
+$ isoinfo -i /path/to/ssx.iso -x '/SLUS_203.26;1' > disc/SLUS_203.26
+$ sha1sum disc/SLUS_203.26
+45e9fd5fa4c0b30ffbd4155a9e256d5eabc65d23  disc/SLUS_203.26
+```
+
+Keep the image itself outside the working tree; `disc/` and the usual disc-image extensions are ignored.
+
 Download required tools:
 
 ```bash

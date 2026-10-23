@@ -24,6 +24,18 @@ config/undefined_syms_auto.txt
 # stuff
 disc/
 
+# Disc images. The game itself must never be committed -- the build only needs
+# the executable extracted into disc/, ignored above, not the image. The
+# root-only patterns are the shapes a dump arrives in; nested .bin/.img stay
+# available for project files.
+*.iso
+*.mdf
+*.mds
+*.nrg
+*.cue
+/*.bin
+/*.img
+
 /scratches
 
 # objdiff
