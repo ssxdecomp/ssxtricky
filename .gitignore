@@ -44,3 +44,6 @@ disc/
 # decompals
 tools/binutils
 tools/objdiff
+
+# the compiler, fetched by download.sh and pinned by sha256 there
+tools/cc/ee-991111-01

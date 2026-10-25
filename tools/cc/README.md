@@ -1,5 +1,25 @@
 # Compiler tools
 
+## Where the compiler comes from
+
+`ee-991111-01/` is **not** in the repository. `download.sh` fetches it from the
+compiler store decomp.me builds its scratch images from, pinned by sha256.
+
+### Licensing
+
+The five files are GNU programs: the gcc driver, `cpp`, `cc1`, `cc1plus`, and
+GNU `as`. Sony's EE work is a derivative of gcc and therefore GPL as well, which
+is why the source can be published at all. None of the proprietary half of the
+PS2 SDK -- the headers, `libsce`, the documentation -- is here or needed.
+
+Source for the GPL parts, patched to build on a modern gcc:
+<https://github.com/SSXModding/ps2-ee-toolchain>
+
+Fetching rather than committing keeps this repository from redistributing GPL
+binaries with no source and no notice, which is what it did before.
+
+## Which compiler the game used
+
 The following compilers were known to be used for SSX OG:
 
 | Compiler                | Description                                                                                                          |

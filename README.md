@@ -40,11 +40,17 @@ $ sha1sum disc/SLUS_203.26
 
 Keep the image itself outside the working tree; `disc/` and the usual disc-image extensions are ignored.
 
-Download required tools:
+Download the toolchain -- the decompals binutils and ee-gcc 2.9, both pinned
+and checked against a sha256:
 
 ```bash
 $ ./download.sh
 ```
+
+Neither lives in the repository. Re-running is a no-op once the versions on disk
+match the pins; delete `tools/binutils` or `tools/cc/ee-991111-01` to force a
+re-download. See `tools/cc/README.md` for where the compiler comes from and
+under what terms.
 
 Setup a venv for splat:
 
