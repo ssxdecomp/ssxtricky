@@ -16,7 +16,9 @@ ROOT = Path(__file__).parent.resolve()
 TOOLS_DIR = ROOT / "tools"
 OUTDIR = "out"
 
-YAML_FILE = ROOT / "config" / "us" / "ssxdvd.yaml"
+# Relative on purpose: splat derives base_path from it, and an absolute one
+# writes the checkout location into generated src/*.c. main() chdirs to ROOT.
+YAML_FILE = Path("config/us/ssxdvd.yaml")
 BASENAME = "SLUS_203.26"
 LD_PATH = f"{BASENAME}.ld"
 ELF_PATH = f"{OUTDIR}/{BASENAME}"
@@ -40,7 +42,8 @@ COMPILE_CXX_RULE = f"{CC_DIR}/bin/ee-gcc -xc++ -c {COMMON_INCLUDES} {DRIVER_PATH
 DECOMPALS_BINUTILS = "tools/binutils/"
 
 CATEGORY_MAP = {
-    "sce": "Libs",
+    "bx": "BX engine",
+    "lib": "Libs",
     "data": "Data",
 }
 
@@ -244,18 +247,20 @@ def build_stuff(linker_entries: List[LinkerEntry], skip_checksum=False, objects_
                 build(entry.object_path, entry.src_paths, "as", out_dir="obj/current", extra_flags="-DSKIP_ASM")
             else:
                 build(entry.object_path, entry.src_paths, "as")
-        elif isinstance(seg, splat.segtypes.common.c.CommonSegC):
-            if dual_objects:
-                build(entry.object_path, entry.src_paths, "cc", out_dir="obj/target", collect_objdiff=True, orig_entry=entry)
-                build(entry.object_path, entry.src_paths, "cc", out_dir="obj/current", extra_flags="-DSKIP_ASM")
-            else:
-                build(entry.object_path, entry.src_paths, "cc")
+        # CommonSegCpp subclasses CommonSegC, so it must be tested first or every
+        # cpp segment is built with the `cc` rule and loses COMMON_CXXFLAGS.
         elif isinstance(seg, splat.segtypes.common.cpp.CommonSegCpp):
             if dual_objects:
                 build(entry.object_path, entry.src_paths, "cpp", out_dir="obj/target", collect_objdiff=True, orig_entry=entry)
                 build(entry.object_path, entry.src_paths, "cpp", out_dir="obj/current", extra_flags="-DSKIP_ASM")
             else:
                 build(entry.object_path, entry.src_paths, "cpp")
+        elif isinstance(seg, splat.segtypes.common.c.CommonSegC):
+            if dual_objects:
+                build(entry.object_path, entry.src_paths, "cc", out_dir="obj/target", collect_objdiff=True, orig_entry=entry)
+                build(entry.object_path, entry.src_paths, "cc", out_dir="obj/current", extra_flags="-DSKIP_ASM")
+            else:
+                build(entry.object_path, entry.src_paths, "cc")
         elif isinstance(seg, splat.segtypes.common.databin.CommonSegDatabin):
             if dual_objects:
                 build(entry.object_path, entry.src_paths, "as", out_dir="obj/target", collect_objdiff=True, orig_entry=entry)
@@ -374,11 +379,11 @@ def main():
     )
     args = parser.parse_args()
 
+    os.chdir(ROOT)
+
     do_clean = (args.clean or args.only_clean) or False
 
-    # FIXME: Set skip_checksum to False once builds are able
-    # to match; it has been temporairly enabled here.
-    do_skip_checksum = args.skip_checksum or True
+    do_skip_checksum = args.skip_checksum
     do_objects = args.objects or False
 
     if do_clean:

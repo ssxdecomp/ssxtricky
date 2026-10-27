@@ -22,6 +22,7 @@ options:
   disasm_unknown: True
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
+  string_encoding: ASCII
   find_file_boundaries: True
   pair_rodata_to_text: True
   auto_decompile_empty_functions: True
@@ -38,10 +39,13 @@ options:
   create_undefined_syms_auto: True
   undefined_syms_auto_path: config/undefined_syms_auto.txt
 
+  # splat skips a symbol_addrs file that does not exist without a word, so a
+  # wrong path here looks like symbols that refuse to apply. Paths resolve
+  # against base_path, the repo root, not this file's directory.
   symbol_addrs_path: [ 
     config/us/symbol_addrs.txt, 
-    config/sdk_symbol_addrs.txt,
-    config/eac_symbol_addrs.txt
+    config/us/sdk_symbol_addrs.txt,
+    config/us/eac_symbol_addrs.txt
   ]
 
   extensions_path: tools/splat_ext
@@ -53,6 +57,7 @@ options:
     ".data", 
     ".vudata", 
     ".rodata", 
+    ".gcc_except_table", 
     ".lit4", 
     ".sdata", 
     ".sbss", 
@@ -129,7 +134,10 @@ segments:
       # -- VUBSS
       - { type: bss, vram: 0x40c174, start: 0x2bcb5c, name: vubss }
 
-  - { type: databin, start: 0x2bcb5c, name: reginfo } # .reginfo section
+  # Not named `reginfo`: ld treats an output section called .reginfo as MIPS
+  # register info, cuts it to 0x18 bytes and drops the rest of this blob. It
+  # starts at 0x2bcb00 to also carry the 0x5c of padding before .reginfo.
+  - { type: databin, start: 0x2bcb00, name: sce_reginfo }
   - { type: databin, start: 0x2c9ea6, name: shstrtab }
   - [0x2cae70]
 
